@@ -1,0 +1,11 @@
+---
+- name: download code from GitHub
+  get_url: 
+    url: https://github.com/mattermost/platform/releases/download/{{ mattermost_version }}/mattermost.tar.gz
+    dest: /tmp/
+
+- name: unpack mattermost archive
+  unarchive: 
+    src: /tmp/mattermost.tar.gz 
+    dest: /opt/
+    copy: no

@@ -1,6 +1,13 @@
 ---
 - hosts: all
   remote_user: root
+  vars:
+    mattermost_version: v1.1.0
+    dbuser: mmmost
+    dbname: mattermost
+    dbpassword: notReallyPassword
+
   roles:
     - common
-
+    - postgres
+    - mattermost
