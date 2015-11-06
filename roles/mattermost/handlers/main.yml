@@ -1,0 +1,5 @@
+---
+- name: start mattermost
+  service:
+    name: mattermost
+    state: started

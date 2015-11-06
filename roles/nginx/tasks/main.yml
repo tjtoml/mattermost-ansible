@@ -1,0 +1,31 @@
+---
+- name: install nginx
+  apt:
+    name: nginx
+
+- name: apply nginx config template
+  template:  
+    src: mattermost.j2
+    dest: /etc/nginx/sites-available/mattermost
+
+- name: remove nginx default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Add SSL directory in /etc/nginx
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+
+- name: create self-signed SSL cert
+  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ ansible_fqdn }}" -days 3650 -keyout /etc/nginx/ssl/mattermost.key -out /etc/nginx/ssl/mattermost.crt -extensions v3_ca 
+  args:
+    creates: /etc/nginx/ssl/mattermost.crt
+
+- name: add mattermost site
+  file:
+    path: /etc/nginx/sites-enabled/mattermost
+    state: link
+    src: /etc/nginx/sites-available/mattermost
+  notify: restart nginx

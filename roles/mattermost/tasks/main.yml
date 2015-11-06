@@ -9,3 +9,38 @@
     src: /tmp/mattermost.tar.gz 
     dest: /opt/
     copy: no
+
+- name: Edit /opt/mattermost/config/config.json
+  lineinfile:
+    dest: /opt/mattermost/config/config.json
+    regexp: '"DriverName": "mysql",'
+    line: '        "DriverName": "postgres",'
+
+- name: Edit /opt/mattermost/config/config.json
+  lineinfile:
+    dest: /opt/mattermost/config/config.json
+    regexp: '"DataSource":'
+    line: '        "DataSource": "postgres://{{ db_user }}:{{ db_password }}@127.0.0.1:5432/{{ db_name }}?sslmode=disable&connect_timeout=10",'
+
+- name: Create mattermost user
+  user: 
+    name: "{{ mattermost_user }}"
+    system: yes
+    createhome: no        
+
+- name: Create mattermost init script
+  template:
+    src: init_script
+    dest: /etc/init.d/mattermost
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Change mattermost directory permissions
+  file:
+    path: /opt/mattermost
+    state: directory
+    owner: "{{ mattermost_user }}"
+    group: "{{ mattermost_user }}"
+    recurse: yes
+  notify: start mattermost          
