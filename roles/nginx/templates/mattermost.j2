@@ -1,6 +1,6 @@
 server {
         listen 443 ssl;
-        server_name {{ server_FQDN }};
+        server_name {{ ansible_fqdn }};
 
         ssl on;
         ssl_certificate /etc/nginx/ssl/mattermost.crt;
@@ -27,6 +27,6 @@ server {
 
   server {
        listen         80;
-       server_name    {{ server_FQDN }};
+       server_name    {{ ansible_fqdn }};
        return         302 https://$server_name$request_uri;
 }

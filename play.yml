@@ -1,13 +1,21 @@
 ---
+# Define the host you want to run the playbook in a file called hosts
+# run "ansible-playbook play.yml -i hosts" from this directory
 - hosts: all
   remote_user: root
   vars:
     mattermost_version: v1.1.0
+
+   #The user the mattermost process will run as. The group will match.
     mattermost_user: mattermost
+   
+   #These do not need to be edited. 
     db_user: mmmost
     db_name: mattermost
+
+   #Choose a secure password. It is recommended you create a random password using 
+   #an external utility.
     db_password: notReallyPassword
-    server_FQDN: www.lugnuthead.xyz
   roles:
      - common
      - postgres
