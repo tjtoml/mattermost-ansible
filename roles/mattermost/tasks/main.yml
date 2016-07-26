@@ -1,12 +1,24 @@
 ---
-- name: download code from GitHub
+- name: add key for ppa python repository
+  apt_key: keyserver=keyserver.ubuntu.com id=DB82666C state=present
+
+- name: Add ppa python repository
+  apt_repository: repo='deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu {{ ansible_distribution_release }} main' state=present update_cache=yes
+
+- name: ensure python2.7 latest  is installed
+  apt:
+    pkg: python2.7
+    state: latest
+    install_recommends: no
+
+- name: download code from MatterMost website
   get_url: 
-    url: https://github.com/mattermost/platform/releases/download/{{ mattermost_version }}/mattermost.tar.gz
+    url: https://releases.mattermost.com/{{ mattermost_version }}/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz
     dest: /tmp/
 
 - name: unpack mattermost archive
   unarchive: 
-    src: /tmp/mattermost.tar.gz 
+    src: /tmp/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz 
     dest: /opt/
     copy: no
 
