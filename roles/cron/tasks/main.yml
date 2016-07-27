@@ -1,0 +1,22 @@
+---
+- name: create cron directory in /opt/
+  file:
+    path: /opt/cron
+    state: directory
+
+- name: Copy shell script to be used in cron job
+  copy:
+    src: renew.sh
+    dest: /opt/cron/renew.sh
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Create cron job to automatically update SSL cert
+  cron:
+    name: "Renew letsencrypt SSL certs"
+    minute: "47"
+    hour: "23"
+    month: "*"
+    day: "15"
+    job: "/opt/cron/renew.sh"

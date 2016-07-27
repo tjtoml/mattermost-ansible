@@ -1,27 +1,40 @@
 ---
 - name: install nginx
-  apt:
-    name: nginx
+  apt: name={{item}}
+  with_items:
+    - nginx
+    - git  
 
 - name: apply nginx config template
   template:  
     src: mattermost.j2
     dest: /etc/nginx/sites-available/mattermost
 
-- name: remove nginx default site
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
+- name: download letsencrypt
+  git: 
+    repo: https://github.com/letsencrypt/letsencrypt 
+    dest: /opt/letsencrypt/
+
+- name: Install letsencrypt dependencies (takes a while)
+  command: /opt/letsencrypt/letsencrypt-auto --help ## This is a bit stupid but it installs the deps without input.
 
 - name: Add SSL directory in /etc/nginx
   file:
     path: /etc/nginx/ssl
     state: directory
 
-- name: create self-signed SSL cert
-  command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN={{ ansible_fqdn }}" -days 3650 -keyout /etc/nginx/ssl/mattermost.key -out /etc/nginx/ssl/mattermost.crt -extensions v3_ca 
-  args:
-    creates: /etc/nginx/ssl/mattermost.crt
+- name: Create letsencrypt config file
+  template: 
+    src: LEconfig.j2
+    dest: /etc/nginx/ssl/cli.ini
+
+- name: Get cert from letsencrypt
+  command: /opt/letsencrypt/letsencrypt-auto certonly -c /etc/nginx/ssl/cli.ini --agree-tos
+
+- name: remove nginx default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
 
 - name: add mattermost site
   file:
