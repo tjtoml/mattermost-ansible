@@ -3,8 +3,8 @@ server {
         server_name {{ ansible_fqdn }};
 
         ssl on;
-        ssl_certificate /etc/nginx/ssl/mattermost.crt;
-        ssl_certificate_key /etc/nginx/ssl/mattermost.key;
+        ssl_certificate /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem;
+        ssl_certificate_key  /etc/letsencrypt/live/{{ ansible_fqdn }}/privkey.pem;
         ssl_session_timeout 5m;
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
         ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";

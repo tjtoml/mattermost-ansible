@@ -16,8 +16,13 @@
    #Choose a secure password. It is recommended you create a random password using 
    #an external utility.
     db_password: notReallyPassword
+
+   # This is the email address you want to be attached to the letsencrypt certificate. It should be valid.
+    cert_email_address: abc@123.com
+
   roles:
-     - common
-     - postgres
-     - mattermost
-     - nginx
+    - common
+    - postgres
+    - mattermost
+    - nginx
+    - cron
