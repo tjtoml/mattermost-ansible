@@ -1,10 +1,14 @@
 ---
-- name: ensure packages are installed
+- name: Ensure packages are installed
   apt: name={{item}}
   with_items:
     - postgresql
     - libpq-dev
     - python-psycopg2
+  when: ansible_os_family == "Debian"
+
+- include: RedHat.yml
+  when: ansible_os_family == 'RedHat'
 
 - name: ensure database is created
   become: true

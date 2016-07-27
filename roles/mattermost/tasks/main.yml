@@ -1,15 +1,19 @@
 ---
 - name: add key for ppa python repository
   apt_key: keyserver=keyserver.ubuntu.com id=DB82666C state=present
+  when: ansible_os_family == "Debian"
 
 - name: Add ppa python repository
   apt_repository: repo='deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu {{ ansible_distribution_release }} main' state=present update_cache=yes
+  when: ansible_os_family == "Debian"
+
 
 - name: ensure python2.7 latest  is installed
   apt:
     pkg: python2.7
     state: latest
     install_recommends: no
+  when: ansible_os_family == "Debian"          
 
 - name: download code from MatterMost website
   get_url: 
@@ -47,6 +51,16 @@
     owner: root
     group: root
     mode: 0755
+  when: (ansible_os_family  == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")  
+
+- name: Create mattermost systemd service
+  template:
+    src: mattermost.service.j2
+    dest: /etc/systemd/mattermost.service
+    owner: root
+    group: root
+    mode: 0664
+  when: (ansible_os_family  == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")  
 
 - name: Change mattermost directory permissions
   file:
