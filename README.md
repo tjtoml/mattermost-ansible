@@ -15,7 +15,7 @@ This is an ansible playbook that installs a standalone version of mattermost, wh
 * **You should *always* edit the email address and db_password fields.** 
 
 
-* Create a `hosts` file in the project directory. It only needs to contain one line, which is the IP address of the server you wish to install Mattermost on.
+* Create a `hosts` file in the project directory. It only needs to contain one line, which is the IP address or FQDN of the server you wish to install Mattermost on.
 
 * Run `ansible-playbook play.yml -i hosts` from the top of level of the project directory.
 
