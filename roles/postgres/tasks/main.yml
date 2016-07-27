@@ -7,16 +7,16 @@
     - python-psycopg2
 
 - name: ensure database is created
-  sudo: yes
-  sudo_user: postgres
+  become: true
+  become_user: postgres
   vars:
     ansible_ssh_pipelining: true
   postgresql_db:
     name: "{{ db_name }}"
 
 - name: ensure user has access to database
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   vars:
     ansible_ssh_pipelining: true
   postgresql_user:
@@ -26,8 +26,8 @@
     priv: ALL
 
 - name: ensure user does not have unnecessary privilege
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   vars:
     ansible_ssh_pipelining: true
   postgresql_user: 
