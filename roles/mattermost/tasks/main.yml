@@ -7,18 +7,24 @@
   apt_repository: repo='deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu {{ ansible_distribution_release }} main' state=present update_cache=yes
   when: ansible_os_family == "Debian"
 
-
 - name: ensure python2.7 latest  is installed
   apt:
     pkg: python2.7
     state: latest
     install_recommends: no
-  when: ansible_os_family == "Debian"          
+  when: ansible_os_family == "Debian"
 
 - name: download code from MatterMost website
   get_url: 
     url: https://releases.mattermost.com/{{ mattermost_version }}/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz
     dest: /tmp/
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7") or (ansible_os_family == "Debian")
+
+- name: download code from MatterMost website (using wget because get_url fails if system python is older than 2.7.5)
+  command: "wget https://releases.mattermost.com/{{ mattermost_version }}/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz"
+  args:        
+    chdir: /tmp/
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")
 
 - name: unpack mattermost archive
   unarchive: 
@@ -46,12 +52,21 @@
 
 - name: Create mattermost init script
   template:
-    src: init_script
+    src: init_script_ubuntu.j2
     dest: /etc/init.d/mattermost
     owner: root
     group: root
     mode: 0755
-  when: (ansible_os_family  == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")  
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")  
+
+- name: Create mattermost init script
+  template:
+    src: init_script_rh6.j2
+    dest: /etc/init/mattermost.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")  
 
 - name: Create mattermost systemd service
   template:
