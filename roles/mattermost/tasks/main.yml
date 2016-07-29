@@ -62,7 +62,7 @@
 - name: Create mattermost init script
   template:
     src: init_script_rh6.j2
-    dest: /etc/init/mattermost.conf
+    dest: /etc/init.d/mattermost
     owner: root
     group: root
     mode: 0644
@@ -71,7 +71,7 @@
 - name: Create mattermost systemd service
   template:
     src: mattermost.service.j2
-    dest: /etc/systemd/mattermost.service
+    dest: /etc/systemd/system/mattermost.service
     owner: root
     group: root
     mode: 0664
@@ -84,4 +84,9 @@
     owner: "{{ mattermost_user }}"
     group: "{{ mattermost_user }}"
     recurse: yes
-  notify: start mattermost          
+
+- name: Enable Mattermost service
+  service:
+    name: mattermost
+    enabled: yes
+    state: started

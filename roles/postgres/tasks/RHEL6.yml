@@ -1,0 +1,33 @@
+---
+- name: Install postgres rpm repo (RHEL 6)
+  yum:
+    name: https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-2.noarch.rpm
+    state: present
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")   
+          
+- name: Install postgres rpm repo (CentOS 6)
+  yum:
+    name: https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-2.noarch.rpm
+    state: present
+  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")   
+
+- name: Install postgres packages and other deps
+  yum: name={{item}} state=present
+  with_items:
+    - postgresql94-server
+    - postgresql94-contrib  
+    - python-psycopg2
+    - postgresql-libs
+    - libselinux-python  
+
+- name: Initialize postgres db  (RHEL/CentOS 6)
+  command: service postgresql-9.4 initdb
+  args:
+    creates: /var/lib/pgsql/9.4/data/postgresql.conf
+
+- name: Enable postgres service (RHEL/CentOS 6)
+  service:
+    name: postgresql-9.4 
+    enabled: yes
+    state: started        
+

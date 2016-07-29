@@ -1,53 +1,9 @@
 ---
-- name: Install postgres rpm repo (RHEL 7)
-  yum:
-    name: https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64/pgdg-redhat94-9.4-2.noarch.rpm
-    state: present
-  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")   
+- include: RHEL7.yml
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7")   
           
-- name: Install postgres rpm repo (RHEL 6)
-  yum:
-    name: https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-2.noarch.rpm
-    state: present
-  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")   
-
-- name: Install postgres rpm repo (CentOS 7)
-  yum:
-    name: https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-2.noarch.rpm
-    state: present
-  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7")   
-          
-- name: Install postgres rpm repo (CentOS 6)
-  yum:
-    name: https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-2.noarch.rpm
-    state: present
-  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")   
-
-- name: Install postgres packages and other deps
-  yum: name={{item}} state=present
-  with_items:
-    - postgresql94-server
-    - postgresql94-contrib  
-    - python-psycopg2
-    - postgresql-libs
-    - libselinux-python  
-
-- name: Initialize postgres db (RHEL/CentOS 7)
-  command: /usr/pgsql-9.4/bin/postgresql94-setup initdb
-  ignore_errors: yes
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7")
-
-- name: Enable postgres service (RHEL/CentOS 7)
-  command: systemctl enable postgresql-9.4.service
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7")
-
-- name: Initialize postgres db  (RHEL/CentOS 6)
-  command: service postgresql-9.4 initdb
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")
-
-- name: Enable postgres service (RHEL/CentOS 6)
-  command: chkconfig postgresql-9.4 on
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")
+- include: RHEL6.yml
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")   
           
 - name: Start postgres service
   service:
@@ -61,6 +17,7 @@
     owner: postgres
     group: postgres
     mode: 0600
+  when: ansible_os_family == "RedHat"
 
 - name: Restart postgres service
   service:
