@@ -1,15 +1,15 @@
 ---
-- name: install git
+- name: Install git
   package:
     name: git
     state: present
 
-- name: download letsencrypt
+- name: git clone letsencrypt/letsencrypt
   git: 
     repo: https://github.com/letsencrypt/letsencrypt 
     dest: /opt/letsencrypt/
 
-- name: install EPEL repository (CentOS/Rhel 6 only)
+- name: Install EPEL repository (CentOS/RHEL 6 only)
   yum:
     name: http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
     state: present
@@ -18,15 +18,10 @@
 - name: Install letsencrypt dependencies (takes a while)
   command: /opt/letsencrypt/letsencrypt-auto --help ## This is a bit stupid but it installs the deps without input.
 
-- name: Add SSL directory in /opt/mattermost
-  file:
-    path: /opt/mattermost/ssl
-    state: directory
-
-- name: Create letsencrypt config file
+- name: Create letsencrypt config file /opt/letsencrypt/cli.ini
   template: 
     src: LEconfig.j2
-    dest: /opt/mattermost/cli.ini
+    dest: /opt/letsencrypt/cli.ini
 
-- name: Get cert from letsencrypt
-  command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/mattermost/cli.ini --agree-tos
+- name: Get SSL certificate from letsencrypt
+  command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos
