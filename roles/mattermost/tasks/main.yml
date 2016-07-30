@@ -17,6 +17,8 @@
     src: /tmp/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz 
     dest: /opt/
     copy: no
+  args:
+    creates: /opt/mattermost/bin/platform
 
 - name: Edit /opt/mattermost/config/config.json
   lineinfile:

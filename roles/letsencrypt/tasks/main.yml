@@ -19,6 +19,10 @@
   command: subscription-manager repos --enable rhel-6-server-optional-rpms
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
 
+- name: Enable RHEL 7 Server Optional RPMs (RHEL 7 only)
+  command: subscription-manager repos --enable rhel-7-server-optional-rpms
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+
 - name: Install letsencrypt dependencies (takes a while)
   command: /opt/letsencrypt/letsencrypt-auto --help ## This is a bit stupid but it installs the deps without input.
 
