@@ -31,5 +31,23 @@
     src: cli.ini.j2
     dest: /opt/letsencrypt/cli.ini
 
+- name: Let https through firewall (RHEL 7)
+  firewalld:
+    service: https
+    permanent: true
+    state: enabled
+    immediate: true
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+
+- name: Let http through firewall (RHEL 7)
+  firewalld:
+    service: http
+    permanent: true
+    state: enabled
+    immediate: true
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+
 - name: Get SSL certificate from letsencrypt
   command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos
+  args:
+    creates: /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem
