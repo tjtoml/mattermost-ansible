@@ -1,25 +1,27 @@
 ---
-- name: Add nginx signing key
+- name: Add nginx signing key (Debian/Ubuntu)
   apt_key:
     url: http://nginx.org/keys/nginx_signing.key
     state: present 
   when: ansible_os_family == "Debian"
 
-- name: Add nginx repository
+- name: Add nginx repository (Ubuntu 14.04)
   apt_repository: repo={{item}} state=present update_cache=yes
   with_items: 
     - 'deb http://nginx.org/packages/ubuntu/ trusty nginx'
     - 'deb-src http://nginx.org/packages/ubuntu/ trusty nginx'
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")
 
-- name: Add nginx repository
+- name: Add nginx repository (Ubuntu 16.04)
   apt_repository: repo={{item}} state=present update_cache=yes
   with_items: 
     - 'deb http://nginx.org/packages/ubuntu/ xenial nginx'
     - 'deb-src http://nginx.org/packages/ubuntu/ xenial nginx'   
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
 
-- name: Add nginx repository
+## There is probably a more graceful way to do this, but this works.
+
+- name: Add nginx repository (RHEL 7)
   yum_repository:
     name: nginx
     description: nginx repo
@@ -28,7 +30,7 @@
     state: present        
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
 
-- name: Add nginx repository
+- name: Add nginx repository (RHEL 6)
   yum_repository:
     name: nginx
     description: nginx repo
@@ -37,7 +39,7 @@
     state: present        
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
 
-- name: Add nginx repository
+- name: Add nginx repository (CentOS 7)
   yum_repository:
     name: nginx
     description: nginx repo
@@ -46,7 +48,7 @@
     state: present        
   when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7")
 
-- name: Add nginx repository
+- name: Add nginx repository (CentOS 6)
   yum_repository:
     name: nginx
     description: nginx repo
@@ -60,9 +62,9 @@
     name: nginx
     state: present
 
-- name: apply nginx config template
+- name: apply nginx config template to /etc/nginx/conf.d/mattermost.conf
   template:  
-    src: mattermost.j2
+    src: mattermost.conf.j2
     dest: /etc/nginx/conf.d/mattermost.conf
 
 - name: remove nginx default site
@@ -70,9 +72,3 @@
     path: /etc/nginx/conf.d/default.conf
     state: absent
   notify: restart nginx
-
-#- name: add mattermost site
-#  file:
-#    path: /etc/nginx/sites-enabled/mattermost
-#    state: link
-#    src: /etc/nginx/sites-available/mattermost
