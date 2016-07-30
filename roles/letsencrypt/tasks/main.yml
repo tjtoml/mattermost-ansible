@@ -48,10 +48,7 @@
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
 
 - name: Open the correct IPTables ports
-  lineinfile: dest=/etc/sysconfig/iptables
-              regexp="^-A INPUT -p {{item.protocol}} -m {{item.protocol}} --dport {{item.port}} -j ACCEPT$"
-              line="-A INPUT -p {{item.protocol}} -m {{item.protocol}} --dport {{item.port}} -j ACCEPT"
-              insertafter="^:OUTPUT ACCEPT \[\d*:\d*\]$"
+  lineinfile: dest=/etc/sysconfig/iptables regexp="^-A INPUT -p {{item.protocol}} -m {{item.protocol}} --dport {{item.port}} -j ACCEPT$" line="-A INPUT -p {{item.protocol}} -m {{item.protocol}} --dport {{item.port}} -j ACCEPT" insertafter="^:OUTPUT ACCEPT \[\d*:\d*\]$"
    with_items:
     - { protocol: tcp, port: 80 }
     - { protocol: tcp, port: 443 }
