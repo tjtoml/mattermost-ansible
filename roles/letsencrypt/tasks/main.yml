@@ -52,7 +52,7 @@
 
 
 #### MUST REMEMBER TO REMOVE STAGING FLAG ##### (I hit the rate limiter in testing.)
-#- name: Get SSL certificate from letsencrypt
-#  command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos --staging
-#  args:
-#    creates: /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem
+- name: Get SSL certificate from letsencrypt
+  command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos --staging
+  args:
+    creates: /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem
