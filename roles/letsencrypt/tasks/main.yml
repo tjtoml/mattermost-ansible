@@ -54,8 +54,7 @@
     enabled: no
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
 
-#### MUST REMEMBER TO REMOVE STAGING FLAG ##### (I hit the rate limiter in testing.)
 - name: Get SSL certificate from letsencrypt
-  command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos --staging
+  command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos
   args:
     creates: /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem
