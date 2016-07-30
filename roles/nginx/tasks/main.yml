@@ -1,44 +1,78 @@
 ---
+- name: Add nginx signing key
+  apt_key:
+    url: http://nginx.org/keys/nginx_signing.key
+    state: present 
+  when: ansible_os_family == "Debian"
+
+- name: Add nginx repository
+  apt_repository: repo={{item}} state=present update_cache=yes
+  with_items: 
+    - 'deb http://nginx.org/packages/ubuntu/ trusty nginx'
+    - 'deb-src http://nginx.org/packages/ubuntu/ trusty nginx'
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")
+
+- name: Add nginx repository
+  apt_repository: repo={{item}} state=present update_cache=yes
+  with_items: 
+    - 'deb http://nginx.org/packages/ubuntu/ xenial nginx'
+    - 'deb-src http://nginx.org/packages/ubuntu/ xenial nginx'   
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
+
+- name: Add nginx repository
+  yum_repository:
+    name: nginx
+    description: nginx repo
+    baseurl: http://nginx.org/packages/rhel/7/$basearch/
+    gpgcheck: no
+    state: present        
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+
+- name: Add nginx repository
+  yum_repository:
+    name: nginx
+    description: nginx repo
+    baseurl: http://nginx.org/packages/rhel/6/$basearch/
+    gpgcheck: no
+    state: present        
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
+
+- name: Add nginx repository
+  yum_repository:
+    name: nginx
+    description: nginx repo
+    baseurl: http://nginx.org/packages/centos/7/$basearch/
+    gpgcheck: no
+    state: present        
+  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7")
+
+- name: Add nginx repository
+  yum_repository:
+    name: nginx
+    description: nginx repo
+    baseurl: http://nginx.org/packages/centos/6/$basearch/
+    gpgcheck: no
+    state: present        
+  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
+
 - name: install nginx
-  apt: name={{item}}
-  with_items:
-    - nginx
-    - git  
+  package:
+    name: nginx
+    state: present
 
 - name: apply nginx config template
   template:  
     src: mattermost.j2
-    dest: /etc/nginx/sites-available/mattermost
-
-- name: download letsencrypt
-  git: 
-    repo: https://github.com/letsencrypt/letsencrypt 
-    dest: /opt/letsencrypt/
-
-- name: Install letsencrypt dependencies (takes a while)
-  command: /opt/letsencrypt/letsencrypt-auto --help ## This is a bit stupid but it installs the deps without input.
-
-- name: Add SSL directory in /etc/nginx
-  file:
-    path: /etc/nginx/ssl
-    state: directory
-
-- name: Create letsencrypt config file
-  template: 
-    src: LEconfig.j2
-    dest: /etc/nginx/ssl/cli.ini
-
-- name: Get cert from letsencrypt
-  command: /opt/letsencrypt/letsencrypt-auto certonly -c /etc/nginx/ssl/cli.ini --agree-tos
+    dest: /etc/nginx/conf.d/mattermost.conf
 
 - name: remove nginx default site
   file:
-    path: /etc/nginx/sites-enabled/default
+    path: /etc/nginx/conf.d/default.conf
     state: absent
-
-- name: add mattermost site
-  file:
-    path: /etc/nginx/sites-enabled/mattermost
-    state: link
-    src: /etc/nginx/sites-available/mattermost
   notify: restart nginx
+
+#- name: add mattermost site
+#  file:
+#    path: /etc/nginx/sites-enabled/mattermost
+#    state: link
+#    src: /etc/nginx/sites-available/mattermost
