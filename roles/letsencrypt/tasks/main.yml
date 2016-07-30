@@ -47,6 +47,9 @@
     immediate: true
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
 
+- name: Allow nginx to connect to MatterMost
+  command: setsebool httpd_can_network_connect true
+
 - name: Get SSL certificate from letsencrypt
   command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos
   args:
