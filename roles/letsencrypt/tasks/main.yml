@@ -47,21 +47,11 @@
     immediate: true
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
 
-- name: Open the correct IPTables ports
-  lineinfile: dest=/etc/sysconfig/iptables regexp="^-A INPUT -p {{ item.protocol }} -m {{ item.protocol }} --dport {{ item.port }} -j ACCEPT$" line="-A INPUT -p {{ item.protocol }} -m {{ item.protocol }} --dport {{ item.port }} -j ACCEPT" insertafter="^:OUTPUT ACCEPT \[\d*:\d*\]$"
-   with_items:
-    - { protocol: tcp, port: 80 }
-    - { protocol: tcp, port: 443 }
-    - { protocol: tcp, port: 22 }
-    - { protocol: udp, port: 80 }
-    - { protocol: udp, port: 443 }
-    - { protocol: udp, port: 22 }
-  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
-
-- name: Restart iptables
+- name: Stop and disable iptables
   service:
     name: iptables
-    state: restarted
+    state: stopped
+    enabled: no
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
 
 - name: Allow nginx to connect to MatterMost
