@@ -6,15 +6,15 @@
   vars:
     mattermost_version: 3.2.0
 
-   #The user the mattermost process will run as. The group will match.
+   # The user the mattermost process will run as. The group will match.
     mattermost_user: mattermost
    
-   #These do not need to be edited. 
+   # These do not need to be edited.
     db_user: mmmost
     db_name: mattermost
 
-   #Choose a secure password. It is recommended you create a random password using 
-   #an external utility.
+   # Choose a secure password. It is recommended you create a random password using
+   # an external utility.
     db_password: notReallyPassword
 
    # This is the email address you want to be attached to the letsencrypt certificate. It should be valid.
@@ -24,5 +24,6 @@
     - common
     - postgres
     - mattermost
+    - letsencrypt
     - nginx
     - cron
