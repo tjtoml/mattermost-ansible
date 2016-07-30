@@ -1,30 +1,16 @@
 ---
-- name: add key for ppa python repository
-  apt_key: keyserver=keyserver.ubuntu.com id=DB82666C state=present
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")
-
-- name: Add ppa python repository
-  apt_repository: repo='deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu {{ ansible_distribution_release }} main' state=present update_cache=yes
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")
-
-- name: ensure python2.7 latest  is installed
-  apt:
-    pkg: python2.7
-    state: latest
-    install_recommends: no
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")
-
-- name: download code from MatterMost website
+- name: Download binary from MatterMost website
   get_url: 
     url: https://releases.mattermost.com/{{ mattermost_version }}/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz
     dest: /tmp/
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7") or (ansible_os_family == "Debian")
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
 
-- name: download code from MatterMost website (using wget because get_url fails if system python is older than 2.7.5)
+- name: Download binary from MatterMost website (using wget because get_url fails if system python is older than 2.7.5)
   command: "wget https://releases.mattermost.com/{{ mattermost_version }}/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz"
   args:        
     chdir: /tmp/
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")
+    creates: /tmp/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")
 
 - name: unpack mattermost archive
   unarchive: 
@@ -37,12 +23,14 @@
     dest: /opt/mattermost/config/config.json
     regexp: '"DriverName": "mysql",'
     line: '        "DriverName": "postgres",'
+    backrefs: yes
 
 - name: Edit /opt/mattermost/config/config.json
   lineinfile:
     dest: /opt/mattermost/config/config.json
     regexp: '"DataSource":'
     line: '        "DataSource": "postgres://{{ db_user }}:{{ db_password }}@127.0.0.1:5432/{{ db_name }}?sslmode=disable&connect_timeout=10",'
+    backrefs: yes
 
 - name: Create mattermost user
   user: 
@@ -50,7 +38,7 @@
     system: yes
     createhome: no        
 
-- name: Create mattermost init script
+- name: Create mattermost SystemV init script (Ubuntu 14.04)
   template:
     src: init_script_ubuntu.j2
     dest: /etc/init.d/mattermost
@@ -59,7 +47,7 @@
     mode: 0755
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")  
 
-- name: Create mattermost init script
+- name: Create mattermost upstart init script (RHEL/CentOS 6)
   template:
     src: mattermost.conf.j2
     dest: /etc/init/mattermost.conf
@@ -68,7 +56,7 @@
     mode: 0644
   when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")  
 
-- name: Create mattermost systemd service
+- name: Create mattermost systemd service (Ubuntu 16.04, RHEL/CentOS 7)
   template:
     src: mattermost.service.j2
     dest: /etc/systemd/system/mattermost.service
