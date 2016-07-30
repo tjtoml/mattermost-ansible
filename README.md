@@ -70,7 +70,9 @@ you wish to install Mattermost on.
 
 * Navigate to the FQDN of your server in a web browser. Consult the Mattermost documentation for further configuration
 options.
+
 ---
+
 ## Post-Install
 If you are planning to use MatterMost for any length of time, you should probably change the location of the
 data directory. A large volume of attached block storage would not be a bad idea. A working email server should also
