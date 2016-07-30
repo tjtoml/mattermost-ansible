@@ -1,22 +1,20 @@
 ---
-- name: create cron directory in /opt/
-  file:
-    path: /opt/cron
-    state: directory
-
-- name: Copy shell script to be used in cron job
-  copy:
-    src: renew.sh
-    dest: /opt/cron/renew.sh
-    owner: root
-    group: root
-    mode: 0755
-
-- name: Create cron job to automatically update SSL cert
+- name: Create cron job to automatically update SSL cert (non-systemd)
   cron:
     name: "Renew letsencrypt SSL certs"
     minute: "47"
     hour: "23"
     month: "*"
     day: "15"
-    job: "/opt/cron/renew.sh"
+    job: "service nginx stop && /opt/letsencrypt/letsencrypt-auto renew --quiet --no-self-upgrade && service nginx start"
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")
+
+- name: Create cron job to automatically update SSL cert (systemd)
+  cron:
+    name: "Renew letsencrypt SSL certs"
+    minute: "47"
+    hour: "23"
+    month: "*"
+    day: "15"
+    job: "systemctl stop nginx && /opt/letsencrypt/letsencrypt-auto renew --quiet --no-self-upgrade && systemctl start nginx"
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
