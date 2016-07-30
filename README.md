@@ -42,7 +42,7 @@ The playbook completely disables the `iptables` firewall. This is not strictly n
 ---
 
 ## Usage
-* Install ansible with your package manager of choice. Ansible can also be installed via `pip.` This playbook was written
+* Install ansible with your package manager of choice. Ansible can also be installed via `pip`. This playbook was written
 and tested with Ansible 2.1.1. If you can, I would recommend running the most recent version of ansible.
 
 
