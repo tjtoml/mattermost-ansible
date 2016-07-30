@@ -7,7 +7,10 @@ edition, consult the mattermost documentation. This playbook installs
  * `nginx` - Web Server (acts as a reverse proxy)
  * SSL certificates are automatically generated from the [letsencrypt](https://letsencrypt.org) project. A cron job is
  created that automatically renews the SSL certificates once a month.
+
 ---
+
+
 This playbook currently works with
 - [x] Ubuntu 14.04.4 Trusty Tahr (DigitalOcean)
 - [x] Ubuntu 16.04.1 Xenial Xerus (DigitalOcean)
