@@ -13,7 +13,7 @@
   yum:
     name: http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
     state: present
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")
+  when: (ansible_os_family == "CentOS" and ansible_distribution_major_version == "6")
 
 - name: Enable RHEL 6 Server Optional RPMs (RHEL 6 only)
   command: subscription-manager repos --enable rhel-6-server-optional-rpms
