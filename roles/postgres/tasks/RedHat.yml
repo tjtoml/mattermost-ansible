@@ -20,7 +20,7 @@
     creates: /var/lib/pgsql/9.4/data/postgresql.conf
   when: ansible_distribution_major_version == "7"
 
-- name: Initialize postgres db
+- name: Initialize postgres db (Ignore warning, this is not a traditional use of service command)
   command: service postgresql-9.4 initdb
   args:
     creates: /var/lib/pgsql/9.4/data/postgresql.conf
@@ -39,11 +39,8 @@
     owner: postgres
     group: postgres
     mode: 0600
-  when: ansible_os_family == "RedHat"
 
 - name: Restart postgres service
   service:
     name: postgresql-9.4
-    state: restarted 
-
-    
+    state: restarted
