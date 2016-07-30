@@ -20,7 +20,7 @@
 
 - name: Create letsencrypt config file /opt/letsencrypt/cli.ini
   template: 
-    src: LEconfig.j2
+    src: cli.ini.j2
     dest: /opt/letsencrypt/cli.ini
 
 - name: Get SSL certificate from letsencrypt
