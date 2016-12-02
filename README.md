@@ -1,6 +1,6 @@
 # mattermost-ansible
 This is an ansible playbook that installs a standalone version of mattermost, which is an open-source Slack alternative.
-This playbook installs Mattermost version 3.2.0 (Team Edition) by default which was the most current at the time of writing.
+This playbook installs Mattermost version 3.5.0 (Team Edition) by default which was the most current at the time of writing.
 It downloads the binary from [mattermost.org](https://www.mattermost.org/download/). If you need to install the Enterprise
 edition, consult the mattermost documentation. This playbook installs
  * `postgresql` - Database Server
