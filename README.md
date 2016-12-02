@@ -78,3 +78,11 @@ If you are planning to use MatterMost for any length of time, you should probabl
 data directory. A large volume of attached block storage would not be a bad idea. A working email server should also
 be configured for email notifications and invites.  You can do most of this from within the browser without manually editing
 configuration files.
+
+---
+
+### Contributing  
+Please submit pull requests! They make my day. 
+
+### Moving Forward
+I am currently working on porting this standalone playbook into a more defined ansible role with a complete implementation of all the options in the mattermost `config` file. You can check on the status of this project [here.](https://github.com/tjtoml/ansible-role-mattermost)
