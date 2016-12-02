@@ -19,6 +19,12 @@
     - 'deb-src http://nginx.org/packages/ubuntu/ xenial nginx'
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
 
+- name: Add nginx repository (Debian 8)
+  apt_repository: repo={{item}} state=present update_cache=yes
+  with_items:
+    - 'deb http://nginx.org/packages/debian/ jessie nginx'
+    - 'deb-src http://nginx.org/packages/debian/ jessie nginx'
+  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "8")
 ## There is probably a more graceful way to do this, but this works.
 
 - name: Add nginx repository (RHEL 7)

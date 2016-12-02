@@ -19,7 +19,7 @@ This playbook currently works with
 - [x] Red Hat Enterprise Linux 6.8 (Santiago) (Installed from RedHat DVD on a Vultr VPS)
 - [x] Red Hat Enterprise Linux 7.2 (Maipo) (Installed from RedHat DVD on a Vultr VPS)
 - [ ] Debian 7.11 Wheezy
-- [ ] Debian 8.5 Jessie
+- [x] Debian 8.6 Jessie (thanks [fgbreel](https://github.com/fgbreel)!)
 - [ ] Fedora 23
 - [ ] Fedora 24
 
