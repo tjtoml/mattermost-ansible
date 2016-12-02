@@ -4,7 +4,7 @@
 - hosts: all
   remote_user: root
   vars:
-    mattermost_version: 3.2.0
+    mattermost_version: 3.5.0
 
    # The user the mattermost process will run as. The group will match.
     mattermost_user: mattermost
