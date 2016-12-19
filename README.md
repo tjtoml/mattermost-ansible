@@ -1,8 +1,9 @@
 # mattermost-ansible
-This is an ansible playbook that installs a standalone version of mattermost, which is an open-source Slack alternative.
-This playbook installs Mattermost version 3.5.0 (Team Edition) by default which was the most current at the time of writing.
+This is an Ansible Playbook that installs a standalone version of Mattermost, which is an open-source Slack alternative.
+This playbook installs Mattermost version 3.5.1 (Team Edition) by default.
+
 It downloads the binary from [mattermost.org](https://www.mattermost.org/download/). If you need to install the Enterprise
-edition, consult the mattermost documentation. This playbook installs
+edition, consult the Mattermost documentation. This playbook installs
  * `postgresql` - Database Server
  * `nginx` - Web Server (acts as a reverse proxy)
  * SSL certificates are automatically generated from the [letsencrypt](https://letsencrypt.org) project. A cron job is
@@ -85,4 +86,4 @@ configuration files.
 Please submit pull requests! They make my day. 
 
 ### Moving Forward
-I am currently working on porting this standalone playbook into a more defined ansible role with a complete implementation of all the options in the mattermost `config` file. You can check on the status of this project [here.](https://github.com/tjtoml/ansible-role-mattermost)
+I am currently working on porting this standalone playbook into a more defined Ansible role with a complete implementation of all the options in the Mattermost `config` file. You can check on the status of this project [here.](https://github.com/tjtoml/ansible-role-mattermost)
