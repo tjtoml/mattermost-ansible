@@ -21,10 +21,7 @@ This playbook currently works with
 - [x] Red Hat Enterprise Linux 7.2 (Maipo) (Installed from RedHat DVD on a Vultr VPS)
 - [ ] Debian 7.11 Wheezy
 - [x] Debian 8.6 Jessie (thanks [fgbreel](https://github.com/fgbreel)!)
-- [ ] Fedora 23
-- [ ] Fedora 24
 
-Debian and Fedora are coming soon.
 
 ---
 I have no reason to think that versions of these operating systems installed locally or by other providers will not work,
@@ -33,7 +30,7 @@ has very permissive firewall rules by default. If you are having an issue, try o
 
 ### Distro Specific Instructions/Info
 #### Ubuntu 16.04
-Ubuntu 16.04 does not ship with a system python installed (why this is true, I don't think I will ever understand.) You must
+Ubuntu 16.04 does not ship with a system python installed. You must
 install it manually with `apt-get install python` before you run the playbook.
 #### RHEL 6.8
 The playbook completely disables the `iptables` firewall. This is not strictly necessary, but I hate `iptables` with my
@@ -43,8 +40,7 @@ The playbook completely disables the `iptables` firewall. This is not strictly n
 ---
 
 ## Usage
-* Install ansible with your package manager of choice. Ansible can also be installed via `pip`. This playbook was written
-and tested with Ansible 2.1.1. If you can, I would recommend running the most recent version of ansible.
+* Install ansible with your package manager of choice. Ansible can also be installed via `pip`. This playbook was tested with Ansible 2.3.1. If you can, I would recommend running the most recent version of ansible.
 
 
 * Clone this repository.
