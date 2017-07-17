@@ -11,10 +11,21 @@
   template:  
     src: mattermost.conf.j2
     dest: /etc/nginx/conf.d/mattermost.conf
+  notify: restart nginx
 
 - name: Allow nginx to connect to MatterMost
   command: setsebool httpd_can_network_connect true
   when: ansible_distribution == "RedHat"
+
+- name: Change nginx cache directory permissions
+  file:
+    path: /var/cache/nginx
+    state: directory
+    owner: nginx
+    group: nginx
+    recurse: yes
+  when: ansible_distribution == "RedHat"
+  notify: restart nginx
 
 - name: remove nginx default site
   file:

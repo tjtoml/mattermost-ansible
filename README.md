@@ -1,6 +1,6 @@
 # mattermost-ansible
 This is an Ansible Playbook that installs a standalone version of Mattermost, which is an open-source Slack alternative.
-This playbook installs Mattermost version 3.5.1 (Team Edition) by default.
+This playbook installs Mattermost version 4.0.0 (Team Edition) by default.
 
 It downloads the binary from [mattermost.org](https://www.mattermost.org/download/). If you need to install the Enterprise
 edition, consult the Mattermost documentation. This playbook installs
@@ -13,14 +13,14 @@ edition, consult the Mattermost documentation. This playbook installs
 
 
 This playbook currently works with
-- [x] Ubuntu 14.04.4 Trusty Tahr (DigitalOcean)
-- [x] Ubuntu 16.04.1 Xenial Xerus (DigitalOcean)
-- [x] CentOS 6.8  (DigitalOcean)
-- [x] CentOS 7.2 (DigitalOcean)
-- [x] Red Hat Enterprise Linux 6.8 (Santiago) (Installed from RedHat DVD on a Vultr VPS)
-- [x] Red Hat Enterprise Linux 7.2 (Maipo) (Installed from RedHat DVD on a Vultr VPS)
+- [x] Ubuntu 14.04.5 LTS, Trusty Tahr (DigitalOcean)
+- [x] Ubuntu 16.04.2 LTS, Xenial Xerus (DigitalOcean)
+- [x] CentOS 6.9  (DigitalOcean)
+- [x] CentOS 7.3 (DigitalOcean)
+- [x] Red Hat Enterprise Linux 6.9 (Santiago) (Installed from RedHat DVD on a Vultr VPS) 
+- [x] Red Hat Enterprise Linux 7.3 (Maipo) (Installed from RedHat DVD on a Vultr VPS)
 - [ ] Debian 7.11 Wheezy
-- [x] Debian 8.6 Jessie (thanks [fgbreel](https://github.com/fgbreel)!)
+- [x] Debian 8.8 Jessie (thanks [fgbreel](https://github.com/fgbreel)!)
 
 
 ---
@@ -40,7 +40,7 @@ The playbook completely disables the `iptables` firewall. This is not strictly n
 ---
 
 ## Usage
-* Install ansible with your package manager of choice. Ansible can also be installed via `pip`. This playbook was tested with Ansible 2.3.1. If you can, I would recommend running the most recent version of ansible.
+* Install ansible with your package manager of choice. Ansible can also be installed via `pip`. This playbook was tested with Ansible 2.3.1 If you can, I would recommend running the most recent version of ansible.
 
 
 * Clone this repository.
