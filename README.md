@@ -17,7 +17,7 @@ This playbook currently works with
 - [x] Ubuntu 16.04.2 LTS, Xenial Xerus (DigitalOcean)
 - [x] CentOS 6.9  (DigitalOcean)
 - [x] CentOS 7.3 (DigitalOcean)
-- [x] Red Hat Enterprise Linux 6.9 (Santiago) (Installed from RedHat DVD on a Vultr VPS) 
+- [x] Red Hat Enterprise Linux 6.9 (Santiago) (Installed from RedHat DVD on a Vultr VPS)
 - [x] Red Hat Enterprise Linux 7.3 (Maipo) (Installed from RedHat DVD on a Vultr VPS)
 - [ ] Debian 7.11 Wheezy
 - [x] Debian 8.8 Jessie (thanks [fgbreel](https://github.com/fgbreel)!)
@@ -29,9 +29,6 @@ but I have not tested them. If you are going to run into an issue, it will proba
 has very permissive firewall rules by default. If you are having an issue, try opening port `80` and `443`.
 
 ### Distro Specific Instructions/Info
-#### Ubuntu 16.04
-Ubuntu 16.04 does not ship with a system python installed. You must
-install it manually with `apt-get install python` before you run the playbook.
 #### RHEL 6.8
 The playbook completely disables the `iptables` firewall. This is not strictly necessary, but I hate `iptables` with my
  whole body and I was tired of fighting with it. If you want or need it, you should re-enable it, but none of the required
@@ -55,7 +52,7 @@ not do a complete installation with full configuration of all of the Mattermost 
 point where you can edit the relevant settings from within the web browser.
 
 
-* **You should *always* edit the email address and db_password fields.** 
+* **You should *always* edit the email address and db_password fields.**
 
 
 * Create a `hosts` file in the project directory. It only needs to contain one line, which is the IP address of the server
@@ -78,8 +75,8 @@ configuration files.
 
 ---
 
-### Contributing  
-Please submit pull requests! They make my day. 
+### Contributing
+Please submit pull requests! They make my day.
 
 ### Moving Forward
 I am currently working on porting this standalone playbook into a more defined Ansible role with a complete implementation of all the options in the Mattermost `config` file. You can check on the status of this project [here.](https://github.com/tjtoml/ansible-role-mattermost)
