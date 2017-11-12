@@ -1,5 +1,5 @@
 ---
-- include: repository.yml
+- import_tasks: repository.yml
 #Install the official nginx repository fdr supported OS's. Moved into a seperate file for readability.
 
 - name: install nginx
