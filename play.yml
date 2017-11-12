@@ -12,7 +12,7 @@
       setup:
 
   vars:
-    mattermost_version: 4.3.1
+    mattermost_version: 4.3.2
 
    # The user the mattermost process will run as. The group will match.
     mattermost_user: mattermost
