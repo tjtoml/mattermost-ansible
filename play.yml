@@ -7,6 +7,7 @@
   pre_tasks:
     - name: Install python
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      changed_when: false
 
     - name: Gather Facts
       setup:
@@ -30,7 +31,6 @@
     cert_email_address: abc@123.com
 
   roles:
-    - common
     - postgres
     - mattermost
     - letsencrypt

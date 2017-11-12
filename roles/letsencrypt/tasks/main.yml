@@ -55,6 +55,6 @@
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
 
 - name: Get SSL certificate from letsencrypt
-  command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos
+  command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos 
   args:
     creates: /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem
