@@ -1,0 +1,42 @@
+---
+- name: Check to see if the second PostGres release is out
+  uri:
+    url: "https://download.postgresql.org/pub/repos/yum/{{ postgres_version }}/redhat/rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture | lower }}/pgdg-{{ ansible_distribution | lower }}{{ postgres_version | replace('.', '') }}-{{postgres_version }}-2.noarch.rpm"
+  register: repo_test
+  ignore_errors: yes
+  no_log: true
+
+- name: Install postgres RPM repo (first release)
+  yum:
+    name: "https://download.postgresql.org/pub/repos/yum/{{ postgres_version }}/redhat/rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture | lower }}/pgdg-{{ ansible_distribution | lower }}{{ postgres_version | replace('.', '') }}-{{postgres_version }}-1.noarch.rpm"
+    state: present
+  when: repo_test.status == 404
+
+- name: Install postgres RPM repo (Second release)
+  yum:
+    name: "https://download.postgresql.org/pub/repos/yum/{{ postgres_version }}/redhat/rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture | lower }}/pgdg-{{ ansible_distribution | lower }}{{ postgres_version | replace('.', '') }}-{{postgres_version }}-2.noarch.rpm"
+    state: present
+  when: repo_test.status == 200
+
+- name: Install postgres packages and other deps
+  yum: name={{item}} state=present
+  with_items:
+    - postgresql{{ postgres_version | replace('.', '') }}-server
+    - postgresql{{ postgres_version | replace('.', '') }}-contrib
+    - python-psycopg2
+    - postgresql-libs
+    - libselinux-python
+
+- name: Initialize postgres db 
+  command: service postgresql-{{ postgres_version }} initdb
+  args:
+    creates: /var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
+  when: ansible_distribution_major_version == "6"
+
+- name: Enable and start postgres service
+  service:
+    name: postgresql-{{ postgres_version }}
+    enabled: yes
+    state: started
+
+# vim:ft=ansible:

@@ -1,0 +1,26 @@
+---
+- name: Add postgres repository key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Add postgres apt repository 
+  apt_repository:
+    repo: 'deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main'
+    state: present
+    update_cache: yes
+
+- name: Ensure packages are installed
+  apt: name={{item}}
+  with_items:
+    - postgresql-{{ postgres_version }}
+    - libpq-dev
+    - python-psycopg2
+
+- name: Enable and start postgres service
+  service:
+    name: postgresql
+    enabled: yes
+    state: started
+
+# vim:ft=ansible:
