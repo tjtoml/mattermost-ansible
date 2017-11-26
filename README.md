@@ -1,4 +1,7 @@
-# mattermost-ansible
+# mattermost-ansible (deprecated)
+
+This playbook has been deprecated in favor of the new role-based model. The last current version was Mattermost v4.3.2
+
 This is an Ansible Playbook that installs a standalone version of Mattermost, which is an open-source Slack alternative.
 This playbook installs Mattermost version 4.3.2 (Team Edition) by default.
 
