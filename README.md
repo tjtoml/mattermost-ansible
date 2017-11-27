@@ -18,12 +18,12 @@ local machine that has access to the server via ssh, or on the server itself.
 ## Usage
 Clone this repository.
 First, decide what type of install you would like to perform:
+
 * If you just want to try Mattermost out, and aren't planning on using it for any length of time, use `quickAndDirty.yml`.
-* If you don't have a local install of ansible and need insall Mattermost on the same machine that runs ansible, use `local.yml`
+
+* If you don't have a local install of ansible and need insall Mattermost on the same machine that runs ansible, use `local.yml`. You will need to run `mv ansible.cfg-local-only ansbile.cfg` before running the playbook. 
+
 * To install a ready to use MatterMost server with an SSL cert from letsencrypt, use `production.yml`. (This is intended more as a jumping-off point than an actual production install.)
-* If you just want to try Mattermost out, and aren't planning on using it for any length of time, use `QuickAndDirty.yml`.
-* If you don't have a local install of ansible and need insall Mattermost on the same machine that runs ansible, use `local.yml`
-* To install a ready to use MatterMost server with an SSL cert from letsencrypt, use `production.yml`
 
 
 Then,
