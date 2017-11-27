@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  become: true
+  connection: local
+  gather_facts: no
+  pre_tasks:
+    - name: Install python
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      changed_when: false
+    - name: Gather Facts
+      setup:
+  roles:
+    - { role: tjtoml.mattermost }
+  vars:
+    mattermost_version: 4.3.2
+    db_user: mmost
+    db_name: mattermost
+    db_password: notReallyASecurePassword
+    cert_email_address: abc@123.com
+    mattermost_user: mattermost
+    SSL_type: letsencrypt #letsencrypt, snakeoil, nossl
+# vim:ft=ansible:
