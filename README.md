@@ -18,15 +18,13 @@ local machine that has access to the server via ssh, or on the server itself.
 ## Usage
 Clone this repository.
 First, decide what type of install you would like to perform:
-<<<<<<< HEAD
 * If you just want to try Mattermost out, and aren't planning on using it for any length of time, use `quickAndDirty.yml`.
 * If you don't have a local install of ansible and need insall Mattermost on the same machine that runs ansible, use `local.yml`
 * To install a ready to use MatterMost server with an SSL cert from letsencrypt, use `production.yml`. (This is intended more as a jumping-off point than an actual production install.)
-=======
 * If you just want to try Mattermost out, and aren't planning on using it for any length of time, use `QuickAndDirty.yml`.
 * If you don't have a local install of ansible and need insall Mattermost on the same machine that runs ansible, use `local.yml`
 * To install a ready to use MatterMost server with an SSL cert from letsencrypt, use `production.yml`
->>>>>>> b92db0625cf47cecd2a4a541aef0f29100d8614f
+
 
 Then,
 
@@ -40,17 +38,10 @@ echo "[[your_servers_fqdn]]" >> hosts      ## Use localhost for local install
 ansible-playbook [[selected_playbook]]
 ```
 After the install completes, navigate to the FQDN of your server in a web browser.
-<<<<<<< HEAD
 Mattermost should be ready to use.
 
 ## Advanced
 For a complete listing of all available variables and their default values, see [`defaults/main.yml`](https://github.com/tjtoml/ansible-role-mattermost/blob/v4.3.2/defaults/main.yml) in the role repository.
-=======
-Mattermost should be ready to use. 
-
-## Advanced
-For a complete listing of all available variables and their default values, see
->>>>>>> b92db0625cf47cecd2a4a541aef0f29100d8614f
 
 
 ## Contributing
