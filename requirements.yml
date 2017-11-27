@@ -1,0 +1,13 @@
+---
+- src: tjtoml.postgresql
+  version: v1.0.0
+
+- src: tjtoml.nginx
+  version: v1.0.1
+
+- src: tjtoml.letsencrypt
+  version: v1.0.0
+
+- src: tjtoml.mattermost
+  version: v4.3.2
+#vim:ft=ansible:
