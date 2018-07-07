@@ -1,4 +1,10 @@
 ---
+- name: Ensure crontab is present
+  dnf:
+    name: cronie
+    state: present
+  when: (ansible_distribution == "Fedora" and ansible_distribution_major_version ==  "28")
+
 - name: Create cron job to automatically update SSL cert (non-systemd)
   cron:
     name: "Renew letsencrypt SSL certs"
@@ -17,4 +23,4 @@
     month: "*"
     day: "15"
     job: "systemctl stop nginx && /opt/letsencrypt/letsencrypt-auto renew --quiet --no-self-upgrade && systemctl start nginx"
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16") or (ansible_distribution == "Debian" and ansible_distribution_release == "jessie")
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16") or (ansible_distribution == "Debian" and ansible_distribution_release == "jessie") or (ansible_distribution == "Fedora" and ansible_distribution_major_version ==  "28")

@@ -8,6 +8,13 @@
   git: 
     repo: https://github.com/letsencrypt/letsencrypt 
     dest: /opt/letsencrypt/
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+
+- name: install letsencrypt
+  dnf:
+    name: letsencrypt
+    state: present
+  when: (ansible_distribution == "Fedora" and ansible_distribution_major_version == "28")
 
 - name: Install EPEL repository (CentOS/RHEL 6 only)
   yum:

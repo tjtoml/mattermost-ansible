@@ -15,7 +15,7 @@
 
 - name: Allow nginx to connect to MatterMost
   command: setsebool httpd_can_network_connect true
-  when: ansible_distribution == "RedHat"
+  when: ansible_distribution == "RedHat" or ansible_distribution == "Fedora"
 
 - name: Change nginx cache directory permissions
   file:
@@ -24,7 +24,7 @@
     owner: nginx
     group: nginx
     recurse: yes
-  when: ansible_distribution == "RedHat"
+  when: ansible_distribution == "RedHat" or ansible_distribution == "Fedora"
   notify: restart nginx
 
 - name: remove nginx default site
