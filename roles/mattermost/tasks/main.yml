@@ -31,7 +31,7 @@
   lineinfile:
     dest: /opt/mattermost/config/config.json
     regexp: '"DataSource":'
-    line: '        "DataSource": "postgres://{{ db_user }}:{{ db_password }}@127.0.0.1:5432/{{ db_name }}?sslmode=disable&connect_timeout=10",'
+    line: '        "DataSource": "postgres://{{ db_user }}:{{ db_password }}@localhost:5432/{{ db_name }}?sslmode=disable&connect_timeout=10",'
     backrefs: yes
 
 - name: Create mattermost user

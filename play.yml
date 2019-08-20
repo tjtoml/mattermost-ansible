@@ -2,8 +2,10 @@
 # Define the host you want to run the playbook in a file called hosts
 # run "ansible-playbook play.yml -i hosts" from this directory
 - hosts: all
-  remote_user: root
+  remote_user: centos
   gather_facts: no
+  become: yes
+  become_user: root
   pre_tasks:
     - name: Install python
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
@@ -13,22 +15,22 @@
       setup:
 
   vars:
-    mattermost_version: 4.3.2
+    mattermost_version: 5.13.1
     postgres_version: 9.4
 
    # The user the mattermost process will run as. The group will match.
     mattermost_user: mattermost
 
    # These do not need to be edited.
-    db_user: mmmost
-    db_name: mattermost
+    db_user: mattermostuser
+    db_name: mattermostdbname
 
    # Choose a secure password. It is recommended you create a random password using
    # an external utility.
-    db_password: notReallyPassword
+    db_password: '309fu3ijijijFIJIJjFNkncOFx'
 
    # This is the email address you want to be attached to the letsencrypt certificate. It should be valid.
-    cert_email_address: abc@123.com
+    cert_email_address: fredsmelo@gmail.com
 
   roles:
     - postgres
