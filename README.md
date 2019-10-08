@@ -82,4 +82,5 @@ Please submit pull requests! They make my day.
 I am currently working on porting this standalone playbook into a more defined Ansible role with a complete implementation of all the options in the Mattermost `config` file. You can check on the status of this project [here.](https://github.com/tjtoml/ansible-role-mattermost)
 
 # Some edits by Marina Brown (catskillmarina@gmail.com) to make this work with
-Ubuntu 18 and update the postgres and mattermost verstions.
+Ubuntu 18 and update the postgres and mattermost verstions. ONLY TESTED on 
+Ubuntu 18 !!!
