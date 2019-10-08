@@ -19,6 +19,13 @@
     - 'deb-src http://nginx.org/packages/ubuntu/ xenial nginx'
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
 
+- name: Add nginx repository (Ubuntu 18.04)
+  apt_repository: repo={{item}} state=present update_cache=yes
+  with_items:
+    - 'deb http://nginx.org/packages/ubuntu/ bionic nginx'
+    - 'deb-src http://nginx.org/packages/ubuntu/ bionic nginx'
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18")
+
 - name: Add nginx repository (Debian 8)
   apt_repository: repo={{item}} state=present update_cache=yes
   with_items:
