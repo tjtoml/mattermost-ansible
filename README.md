@@ -15,6 +15,7 @@ edition, consult the Mattermost documentation. This playbook installs
 This playbook currently works with
 - [x] Ubuntu 14.04.5 LTS, Trusty Tahr (DigitalOcean)
 - [x] Ubuntu 16.04.2 LTS, Xenial Xerus (DigitalOcean)
+- [x] Ubuntu 18.04.3 LTS bionic (DigitalOcean)
 - [x] CentOS 6.9  (DigitalOcean)
 - [x] CentOS 7.3 (DigitalOcean)
 - [x] Red Hat Enterprise Linux 6.9 (Santiago) (Installed from RedHat DVD on a Vultr VPS)
