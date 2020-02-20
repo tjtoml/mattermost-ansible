@@ -5,8 +5,8 @@
     state: present
 
 - name: git clone letsencrypt/letsencrypt
-  git: 
-    repo: https://github.com/letsencrypt/letsencrypt 
+  git:
+    repo: https://github.com/letsencrypt/letsencrypt
     dest: /opt/letsencrypt/
 
 - name: Install EPEL repository (CentOS/RHEL 6 only)
@@ -15,19 +15,15 @@
     state: present
   when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")
 
-- name: Enable RHEL 6 Server Optional RPMs (RHEL 6 only)
-  command: subscription-manager repos --enable rhel-6-server-optional-rpms
-  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
-
-- name: Enable RHEL 7 Server Optional RPMs (RHEL 7 only)
-  command: subscription-manager repos --enable rhel-7-server-optional-rpms
-  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+- name: Enable RHEL Server Optional RPMs
+  command: "subscription-manager repos --enable rhel-{{ ansible_distribution_major_version }}-server-optional-rpms"
+  when: ansible_distribution == "RedHat"
 
 - name: Install letsencrypt dependencies (takes a while)
   command: /opt/letsencrypt/letsencrypt-auto --help ## This is a bit stupid but it installs the deps without input.
 
 - name: Create letsencrypt config file /opt/letsencrypt/cli.ini
-  template: 
+  template:
     src: cli.ini.j2
     dest: /opt/letsencrypt/cli.ini
 
@@ -55,6 +51,6 @@
   when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
 
 - name: Get SSL certificate from letsencrypt
-  command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos 
+  command: /opt/letsencrypt/letsencrypt-auto certonly -c /opt/letsencrypt/cli.ini --agree-tos
   args:
     creates: /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem

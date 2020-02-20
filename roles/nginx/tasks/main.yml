@@ -8,7 +8,7 @@
     state: present
 
 - name: apply nginx config template to /etc/nginx/conf.d/mattermost.conf
-  template:  
+  template:
     src: mattermost.conf.j2
     dest: /etc/nginx/conf.d/mattermost.conf
   notify: restart nginx
