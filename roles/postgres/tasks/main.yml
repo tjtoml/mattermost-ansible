@@ -1,5 +1,5 @@
 ---
-- include_tasks: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+- include_tasks: "{{ ansible_os_family | lower }}.yml"
 
 - name: ensure database is created
   become: true

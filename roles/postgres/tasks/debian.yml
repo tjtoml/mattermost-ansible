@@ -4,7 +4,7 @@
     url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
     state: present
 
-- name: Add postgres apt repository 
+- name: Add postgres apt repository
   apt_repository:
     repo: 'deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main'
     state: present
