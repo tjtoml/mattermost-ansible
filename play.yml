@@ -3,6 +3,7 @@
 # run "ansible-playbook play.yml -i hosts" from this directory
 - hosts: all
   remote_user: root
+  become: yes
   gather_facts: no
   pre_tasks:
     - name: Install python
@@ -29,6 +30,9 @@
 
    # This is the email address you want to be attached to the letsencrypt certificate. It should be valid.
     cert_email_address: abc@123.com
+
+   # This is the domain name to be used for letsencrypt.  Be sure to point this at the host you're deploying to.
+    mattermost_fqdn: mm.mydomain.com
 
   roles:
     - postgres
