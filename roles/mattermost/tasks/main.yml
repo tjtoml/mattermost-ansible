@@ -1,20 +1,20 @@
 ---
 - name: Download binary from MatterMost website
-  get_url: 
+  get_url:
     url: https://releases.mattermost.com/{{ mattermost_version }}/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz
     dest: /tmp/
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16") or (ansible_distribution == "Debian" and ansible_distribution_major_version == "8")
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version is version("7", ">=")) or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version is version("16", ">=")) or (ansible_distribution == "Debian" and ansible_distribution_major_version is version("8", ">="))
 
 - name: Download binary from MatterMost website (using wget because get_url fails if system python is older than 2.7.5)
   command: "wget https://releases.mattermost.com/{{ mattermost_version }}/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz"
-  args:        
+  args:
     chdir: /tmp/
     creates: /tmp/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version is version("6", "=")) or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version is version("14", "="))
 
 - name: unpack mattermost archive
-  unarchive: 
-    src: /tmp/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz 
+  unarchive:
+    src: /tmp/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz
     dest: /opt/
     copy: no
   args:
@@ -35,10 +35,10 @@
     backrefs: yes
 
 - name: Create mattermost user
-  user: 
+  user:
     name: "{{ mattermost_user }}"
     system: yes
-    createhome: no        
+    createhome: no
 
 - name: Create mattermost SystemV init script (Ubuntu 14.04)
   template:
@@ -47,7 +47,7 @@
     owner: root
     group: root
     mode: 0755
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")  
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version is version("14", "="))
 
 - name: Create mattermost upstart init script (RHEL/CentOS 6)
   template:
@@ -56,7 +56,7 @@
     owner: root
     group: root
     mode: 0644
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")  
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version is version("6", "="))
 
 - name: Create mattermost systemd service (Ubuntu 16.04, RHEL/CentOS 7)
   template:
@@ -65,7 +65,7 @@
     owner: root
     group: root
     mode: 0664
-  when: (ansible_os_family  == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16") or (ansible_distribution == "Debian" and ansible_distribution_major_version == "8")
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version is version("7", ">=")) or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version is version("16", ">=")) or (ansible_distribution == "Debian" and ansible_distribution_major_version is version("8", ">="))
 
 - name: Change mattermost directory permissions
   file:

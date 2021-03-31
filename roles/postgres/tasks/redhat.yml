@@ -27,11 +27,17 @@
     - postgresql-libs
     - libselinux-python
 
-- name: Initialize postgres db 
+- name: Initialize postgres db
   command: service postgresql-{{ postgres_version }} initdb
   args:
     creates: /var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
-  when: ansible_distribution_major_version == "6"
+  when: ansible_distribution_major_version is version("6", "=")
+
+- name: Initialize postgres db
+  command: /usr/pgsql-{{ postgres_version }}/bin/postgresql{{ postgres_version | replace('.', '') }}-setup initdb
+  args:
+    creates: /var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf
+  when: ansible_distribution_major_version is version("7", ">=")
 
 - name: Enable and start postgres service
   service:

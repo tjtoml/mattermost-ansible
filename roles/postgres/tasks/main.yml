@@ -1,5 +1,5 @@
 ---
-- include_tasks: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+- include_tasks: "{{ ansible_os_family | lower }}.yml"
 
 - name: ensure database is created
   become: true
@@ -19,7 +19,7 @@
 - name: ensure user does not have unnecessary privilege
   become: yes
   become_user: postgres
-  postgresql_user: 
+  postgresql_user:
     name: "{{ db_user }}"
     role_attr_flags: NOSUPERUSER,NOCREATEDB
 
