@@ -3,14 +3,19 @@
   get_url: 
     url: https://releases.mattermost.com/{{ mattermost_version }}/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz
     dest: /tmp/
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16") or (ansible_distribution == "Debian" and ansible_distribution_major_version == "8")
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18") or (ansible_distribution == "Debian" and ansible_distribution_major_version == "8")
 
 - name: Download binary from MatterMost website (using wget because get_url fails if system python is older than 2.7.5)
   command: "wget https://releases.mattermost.com/{{ mattermost_version }}/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz"
   args:        
     chdir: /tmp/
     creates: /tmp/mattermost-team-{{ mattermost_version }}-linux-amd64.tar.gz
-  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")
+  when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18") 
+
+- name: creates opt directory
+  file:
+    path: /opt
+    state: directory
 
 - name: unpack mattermost archive
   unarchive: 
@@ -58,14 +63,14 @@
     mode: 0644
   when: (ansible_os_family == "RedHat" and ansible_distribution_major_version == "6")  
 
-- name: Create mattermost systemd service (Ubuntu 16.04, RHEL/CentOS 7)
+- name: Create mattermost systemd service (Ubuntu 16.04/18?, RHEL/CentOS 7)
   template:
     src: mattermost.service.j2
     dest: /etc/systemd/system/mattermost.service
     owner: root
     group: root
     mode: 0664
-  when: (ansible_os_family  == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16") or (ansible_distribution == "Debian" and ansible_distribution_major_version == "8")
+  when: (ansible_os_family  == "RedHat" and ansible_distribution_major_version == "7") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16") or (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18") or (ansible_distribution == "Debian" and ansible_distribution_major_version == "8")
 
 - name: Change mattermost directory permissions
   file:

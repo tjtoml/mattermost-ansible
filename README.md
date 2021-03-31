@@ -18,6 +18,7 @@ edition, consult the Mattermost documentation. This playbook installs
 This playbook currently works with
 - [x] Ubuntu 14.04.5 LTS, Trusty Tahr (DigitalOcean)
 - [x] Ubuntu 16.04.2 LTS, Xenial Xerus (DigitalOcean)
+- [x] Ubuntu 18.04.3 LTS bionic (DigitalOcean)
 - [x] CentOS 6.9  (DigitalOcean)
 - [x] CentOS 7.3 (DigitalOcean)
 - [x] Red Hat Enterprise Linux 6.9 (Santiago) (Installed from RedHat DVD on a Vultr VPS)
@@ -83,3 +84,7 @@ Please submit pull requests! They make my day.
 
 ### Moving Forward
 I am currently working on porting this standalone playbook into a more defined Ansible role with a complete implementation of all the options in the Mattermost `config` file. You can check on the status of this project [here.](https://github.com/tjtoml/ansible-role-mattermost)
+
+# Some edits by Marina Brown (catskillmarina@gmail.com) to make this work with
+Ubuntu 18 and update the postgres and mattermost verstions. ONLY TESTED on 
+Ubuntu 18 !!!

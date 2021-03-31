@@ -7,6 +7,19 @@
     name: nginx
     state: present
 
+- name: remove nginx default site
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+  notify: restart nginx
+
+- name: remove nginx default site (Ubuntu 18)
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: restart nginx
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18") 
+
 - name: apply nginx config template to /etc/nginx/conf.d/mattermost.conf
   template:  
     src: mattermost.conf.j2
@@ -25,10 +38,4 @@
     group: nginx
     recurse: yes
   when: ansible_distribution == "RedHat"
-  notify: restart nginx
-
-- name: remove nginx default site
-  file:
-    path: /etc/nginx/conf.d/default.conf
-    state: absent
   notify: restart nginx

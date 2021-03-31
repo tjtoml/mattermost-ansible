@@ -14,6 +14,7 @@
     db: "{{ db_name }}"
     name: "{{ db_user }}"
     password: "{{ db_password }}"
+    encrypted: yes
     priv: ALL
 
 - name: ensure user does not have unnecessary privilege

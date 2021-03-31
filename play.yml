@@ -14,8 +14,8 @@
       setup:
 
   vars:
-    mattermost_version: 4.3.2
-    postgres_version: 9.4
+    mattermost_version: 5.15.0
+    postgres_version: 12
 
    # The user the mattermost process will run as. The group will match.
     mattermost_user: mattermost
