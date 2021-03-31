@@ -1,3 +1,6 @@
+# Maintainer Wanted
+If someone would like to take over the maintenance of this repo, please submit an issue or PR. I originally wrote this as a way to learn ansible when I was in college, and no longer have the time/inclination to maintain it now that I have a real job - mostly working with ansible. 
+
 # mattermost-ansible
 This is an Ansible Playbook that installs a standalone version of Mattermost, which is an open-source Slack alternative.
 This playbook installs Mattermost version 4.3.2 (Team Edition) by default.
